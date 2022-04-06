@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/MrAmperage/GoWebStruct/ApplicationCore"
+	"github.com/MrAmperage/ReportBoxRouterService/Controllers"
 )
 
 func main() {
@@ -12,6 +13,7 @@ func main() {
 	if ErrorInitService != nil {
 		fmt.Println(ErrorInitService)
 	}
+	RouterService.WebCore.Router.HandleFunc("/", Controllers.RootController)
 	ErrorStartService := RouterService.Start()
 	if ErrorStartService != nil {
 
