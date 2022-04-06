@@ -8,9 +8,14 @@ import (
 
 func main() {
 	RouterService := &ApplicationCore.ApplicationCore{}
-	Error := RouterService.Start()
-	if Error != nil {
-
-		fmt.Println(Error)
+	ErrorInitService := RouterService.Init()
+	if ErrorInitService != nil {
+		fmt.Println(ErrorInitService)
 	}
+	ErrorStartService := RouterService.Start()
+	if ErrorStartService != nil {
+
+		fmt.Println(ErrorStartService)
+	}
+
 }
