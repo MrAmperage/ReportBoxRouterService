@@ -2,10 +2,12 @@ package Controllers
 
 import (
 	"net/http"
+	"text/template"
 )
 
 func RootController(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
-	ResponseWriter.Write([]byte("123"))
+	Template, _ := template.ParseFiles("Static/Pages/Index.html")
+	Template.Execute(ResponseWriter, nil)
 
 }
