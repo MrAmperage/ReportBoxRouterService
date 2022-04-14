@@ -1,10 +1,11 @@
 package Controllers
 
 import (
-	"github.com/gorilla/mux"
+	"github.com/MrAmperage/GoWebStruct/ApplicationCore"
 )
 
-func InitControllers(Router *mux.Router) {
+func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 
-	Router.HandleFunc("/", RootController).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/", RootController(ApplicationCore)).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/authentication", AuthenticationController(ApplicationCore)).Methods("POST")
 }

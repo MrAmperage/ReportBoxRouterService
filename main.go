@@ -13,7 +13,7 @@ func main() {
 	if ErrorInitService != nil {
 		fmt.Println(ErrorInitService)
 	}
-	RouterService.WebCore.Router.HandleFunc("/", Controllers.RootController)
+	Controllers.InitControllers(RouterService)
 	ErrorStartService := RouterService.Start()
 	if ErrorStartService != nil {
 
