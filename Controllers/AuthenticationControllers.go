@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/MrAmperage/GoWebStruct/WebCore"
 )
 
 type AuthenticationData struct {
@@ -11,8 +13,7 @@ type AuthenticationData struct {
 	Password string
 }
 
-func AuthenticationController(ResponseWriter http.ResponseWriter, Request *http.Request) (Data interface{}, Error error) {
-
+func AuthenticationController(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore WebCore.WebCore) (Data interface{}, Error error) {
 	var LoginPassword AuthenticationData
 	ByteBody, Error := ioutil.ReadAll(Request.Body)
 	if Error != nil {
