@@ -1,6 +1,7 @@
 package Controllers
 
 import (
+	"fmt"
 	"net/http"
 	"text/template"
 
@@ -8,7 +9,7 @@ import (
 )
 
 func RootController(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore WebCore.WebCore) (Data interface{}, Error error) {
-	Template, Error := template.ParseFiles("Static/Pages/Index.html")
+	Template, Error := template.ParseFiles(fmt.Sprintf("%s/Pages/Index.html", WebCore.FileServer.StaticDirectory))
 	if Error != nil {
 		return
 	}
