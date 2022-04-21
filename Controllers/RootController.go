@@ -8,7 +8,7 @@ import (
 	"github.com/MrAmperage/GoWebStruct/WebCore"
 )
 
-func RootController(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore WebCore.WebCore) (Data interface{}, Error error) {
+func RootController(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore *WebCore.WebCore) (Data interface{}, Error error) {
 	Template, Error := template.ParseFiles(fmt.Sprintf("%s/Pages/Index.html", WebCore.FileServer.StaticDirectory))
 	if Error != nil {
 		return

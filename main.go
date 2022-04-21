@@ -14,10 +14,14 @@ func main() {
 		fmt.Println(ErrorInitService)
 	}
 	Controllers.InitControllers(RouterService)
-	ErrorStartService := RouterService.Start()
+	ErrorStartService := RouterService.StartRabbitMQ()
 	if ErrorStartService != nil {
 
 		fmt.Println(ErrorStartService)
+	}
+	ErrorStartWebServer := RouterService.StartWebServer()
+	if ErrorStartWebServer != nil {
+		fmt.Println(ErrorStartWebServer)
 	}
 
 }
