@@ -10,6 +10,7 @@ require (
 )
 
 require (
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/streadway/amqp v1.0.0 // indirect
 )
