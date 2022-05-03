@@ -1,6 +1,7 @@
 package Controllers
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 
@@ -10,7 +11,7 @@ import (
 )
 
 func AuthenticationController(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore *WebCore.WebCore) (Data interface{}, Error error) {
-
+	var Response any
 	NewCorrelationId := uuid.NewString()
 
 	ByteBody, Error := ioutil.ReadAll(Request.Body)
@@ -36,6 +37,11 @@ func AuthenticationController(ResponseWriter http.ResponseWriter, Request *http.
 	if Error != nil {
 		return
 	}
-	return string(RabbitMessage.Body), Error
+
+	if Error != nil {
+		return
+	}
+	json.Unmarshal(RabbitMessage.Body, &Response)
+	return Response, Error
 
 }
