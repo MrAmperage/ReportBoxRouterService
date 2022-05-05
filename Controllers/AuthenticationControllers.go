@@ -10,20 +10,20 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func AuthenticationController(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore *WebCore.WebCore) (Data interface{}, Error error) {
-	var Response any
+func AuthenticationController(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+
 	NewCorrelationId := uuid.NewString()
 
 	ByteBody, Error := ioutil.ReadAll(Request.Body)
 	if Error != nil {
 		return
 	}
-	ReplySubscribe, Error := WebCore.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
 	if Error != nil {
 		return
 	}
 
-	Error = WebCore.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Authentication", false, false, amqp.Publishing{
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Authentication", false, false, amqp.Publishing{
 		Type:          "POST",
 		ContentType:   "application/json",
 		Body:          ByteBody,
@@ -41,7 +41,12 @@ func AuthenticationController(ResponseWriter http.ResponseWriter, Request *http.
 	if Error != nil {
 		return
 	}
-	json.Unmarshal(RabbitMessage.Body, &Response)
-	return Response, Error
+	var AuthenticationToken WebCore.AuthenticationResponse
+	Error = json.Unmarshal(RabbitMessage.Body, &AuthenticationToken)
+	if Error != nil {
+		return
+	}
+
+	return AuthenticationToken, Error
 
 }
