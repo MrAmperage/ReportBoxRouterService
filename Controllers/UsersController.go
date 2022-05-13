@@ -43,7 +43,7 @@ func AddUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreO
 
 func DeleteUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
 	NewCorrelationId := uuid.NewString()
-	Username := mux.Vars(Request)["username"]
+	Username := mux.Vars(Request)["Username"]
 
 	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
 	if Error != nil {
