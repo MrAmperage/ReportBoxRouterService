@@ -124,3 +124,33 @@ func GetUsers(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore
 	}
 	return Users, Error
 }
+
+func GetUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	var User Models.User
+	NewCorrelationId := uuid.NewString()
+	Username := mux.Vars(Request)["Username"]
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Users", false, false, amqp.Publishing{
+		Type:          "GET",
+		ContentType:   "application/json",
+		Body:          []byte(Username),
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+	Error = json.Unmarshal(RabbitMessage.Body, &User)
+	if Error != nil {
+		return
+	}
+	return User, Error
+}
