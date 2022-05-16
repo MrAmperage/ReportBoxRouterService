@@ -1,10 +1,12 @@
 package Controllers
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
+	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/streadway/amqp"
@@ -39,6 +41,33 @@ func AddScheme(ResponseWriter http.ResponseWriter, Request *http.Request, WebCor
 	return string(RabbitMessage.Body), Error
 }
 
+func GetSchemes(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	var Schemes []Models.Scheme
+	NewCorrelationId := uuid.NewString()
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Schemes", false, false, amqp.Publishing{
+		Type:          "GET",
+		ContentType:   "application/json",
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+	Error = json.Unmarshal(RabbitMessage.Body, &Schemes)
+	if Error != nil {
+		return
+	}
+	return Schemes, Error
+}
 func DeleteScheme(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
 	NewCorrelationId := uuid.NewString()
 	SchemeId := mux.Vars(Request)["SchemeId"]
