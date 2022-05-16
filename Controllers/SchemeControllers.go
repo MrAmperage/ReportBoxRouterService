@@ -121,3 +121,33 @@ func EditScheme(ResponseWriter http.ResponseWriter, Request *http.Request, WebCo
 	}
 	return string(RabbitMessage.Body), Error
 }
+
+func GetScheme(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	var Scheme Models.Scheme
+	NewCorrelationId := uuid.NewString()
+	SchemeId := mux.Vars(Request)["SchemeId"]
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Schemes", false, false, amqp.Publishing{
+		Type:          "GET",
+		ContentType:   "application/json",
+		Body:          []byte(SchemeId),
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+	Error = json.Unmarshal(RabbitMessage.Body, &Scheme)
+	if Error != nil {
+		return
+	}
+	return Scheme, Error
+}

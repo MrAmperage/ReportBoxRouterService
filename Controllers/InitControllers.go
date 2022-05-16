@@ -17,4 +17,5 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/schemes/{SchemeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteScheme, &ApplicationCore.WebCore)).Methods("DELETE")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/schemes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetSchemes, &ApplicationCore.WebCore)).Methods("GET")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/schemes/{SchemeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditScheme, &ApplicationCore.WebCore)).Methods("PATCH")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/schemes/{SchemeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetScheme, &ApplicationCore.WebCore)).Methods("GET")
 }
