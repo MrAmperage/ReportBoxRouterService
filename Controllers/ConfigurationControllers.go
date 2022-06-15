@@ -5,12 +5,13 @@ import (
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
+	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/streadway/amqp"
 )
 
 func GetApplicationMenu(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
-	ApplicationMenu := new(map[string]interface{})
+	var ApplicationMenu []Models.TopMenu
 	NewCorrelationId := uuid.NewString()
 	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
 	if Error != nil {
@@ -31,7 +32,7 @@ func GetApplicationMenu(ResponseWriter http.ResponseWriter, Request *http.Reques
 	if Error != nil {
 		return
 	}
-	Error = json.Unmarshal(RabbitMessage.Body, ApplicationMenu)
+	Error = json.Unmarshal(RabbitMessage.Body, &ApplicationMenu)
 	if Error != nil {
 		return
 	}
