@@ -22,4 +22,7 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	//Конфигурация
 	ApplicationCore.WebCore.Router.HandleFunc("/api/configuration/{Action}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetConfiguration, &ApplicationCore.WebCore)).Methods("GET")
 
+	//Типы агрегатов
+	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetUnitTypes, &ApplicationCore.WebCore)).Methods("GET")
+
 }
