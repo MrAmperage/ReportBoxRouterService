@@ -5,13 +5,14 @@ import (
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
+	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/streadway/amqp"
 )
 
 func GetConfiguration(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
-	ApplicationMenu := make(map[string]interface{})
+
 	Action := mux.Vars(Request)["Action"]
 	NewCorrelationId := uuid.NewString()
 	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
@@ -33,6 +34,11 @@ func GetConfiguration(ResponseWriter http.ResponseWriter, Request *http.Request,
 	if Error != nil {
 		return
 	}
-	return ApplicationMenu, json.Unmarshal(RabbitMessage.Body, &ApplicationMenu)
+	switch Action {
+	case "GetApplicationMenu":
+		var TopMenu []Models.TopMenu
+		return TopMenu, json.Unmarshal(RabbitMessage.Body, &TopMenu)
 
+	}
+	return
 }
