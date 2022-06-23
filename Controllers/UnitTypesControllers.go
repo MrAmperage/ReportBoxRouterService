@@ -126,6 +126,7 @@ func EditUnitType(ResponseWriter http.ResponseWriter, Request *http.Request, Web
 }
 
 func AddUnitType(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	var NewUnitType Models.UnitTypes
 	NewCorrelationId := uuid.NewString()
 	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
 	if Error != nil {
@@ -149,6 +150,10 @@ func AddUnitType(ResponseWriter http.ResponseWriter, Request *http.Request, WebC
 	if Error != nil {
 		return
 	}
+	Error = json.Unmarshal(RabbitMessage.Body, &NewUnitType)
+	if Error != nil {
+		return
+	}
 
-	return string(RabbitMessage.Body), Error
+	return NewUnitType, Error
 }
