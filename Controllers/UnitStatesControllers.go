@@ -69,3 +69,29 @@ func GetUnitState(ResponseWriter http.ResponseWriter, Request *http.Request, Web
 
 	return UnitState, Error
 }
+
+func DeleteUnitState(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	UnitStateId := mux.Vars(Request)["UnitStateId"]
+	NewCorrelationId := uuid.NewString()
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "UnitStates", false, false, amqp.Publishing{
+		Type:          "DELETE",
+		Body:          []byte(UnitStateId),
+		ContentType:   "application/json",
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+
+	return string(RabbitMessage.Body), Error
+}
