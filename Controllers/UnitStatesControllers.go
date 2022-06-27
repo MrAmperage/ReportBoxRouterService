@@ -130,3 +130,36 @@ func EditUnitState(ResponseWriter http.ResponseWriter, Request *http.Request, We
 
 	return NewUnitState, Error
 }
+
+func AddUnitState(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	var NewUnitState Models.UnitState
+	NewCorrelationId := uuid.NewString()
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+	ByteBody, Error := ioutil.ReadAll(Request.Body)
+	if Error != nil {
+		return
+	}
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "UnitStates", false, false, amqp.Publishing{
+		Type:          "POST",
+		Body:          ByteBody,
+		ContentType:   "application/json",
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+	Error = json.Unmarshal(RabbitMessage.Body, &NewUnitState)
+	if Error != nil {
+		return
+	}
+
+	return NewUnitState, Error
+}

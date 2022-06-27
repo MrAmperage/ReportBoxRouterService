@@ -33,4 +33,5 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitStates/{UnitStateId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetUnitState, &ApplicationCore.WebCore)).Methods("GET")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitStates/{UnitStateId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteUnitState, &ApplicationCore.WebCore)).Methods("DELETE")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitStates/{UnitStateId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditUnitState, &ApplicationCore.WebCore)).Methods("PATCH")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitStates", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddUnitState, &ApplicationCore.WebCore)).Methods("POST")
 }
