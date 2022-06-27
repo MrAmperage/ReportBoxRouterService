@@ -28,5 +28,6 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddUnitType, &ApplicationCore.WebCore)).Methods("POST")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitTypes/{UnitTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteUnitType, &ApplicationCore.WebCore)).Methods("DELETE")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitTypes/{UnitTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditUnitType, &ApplicationCore.WebCore)).Methods("PATCH")
-
+	//Состояние агрегатов
+	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitStates", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetUnitStates, &ApplicationCore.WebCore)).Methods("GET")
 }
