@@ -34,4 +34,7 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitStates/{UnitStateId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteUnitState, &ApplicationCore.WebCore)).Methods("DELETE")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitStates/{UnitStateId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditUnitState, &ApplicationCore.WebCore)).Methods("PATCH")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/UnitStates", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddUnitState, &ApplicationCore.WebCore)).Methods("POST")
+	//Типы транспорта
+
+	ApplicationCore.WebCore.Router.HandleFunc("/api/TransportTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetTransportTypes, &ApplicationCore.WebCore)).Methods("GET")
 }
