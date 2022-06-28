@@ -37,4 +37,5 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	//Типы транспорта
 
 	ApplicationCore.WebCore.Router.HandleFunc("/api/TransportTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetTransportTypes, &ApplicationCore.WebCore)).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/TransportTypes/{TransportTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetTransportType, &ApplicationCore.WebCore)).Methods("GET")
 }
