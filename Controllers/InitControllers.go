@@ -43,5 +43,6 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	//Производители
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Manufacturers", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetManufacturers, &ApplicationCore.WebCore)).Methods("GET")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Manufacturers/{ManufacturerId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetManufacturer, &ApplicationCore.WebCore)).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Manufacturers/{ManufacturerId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteManufacturer, &ApplicationCore.WebCore)).Methods("DELETE")
 
 }
