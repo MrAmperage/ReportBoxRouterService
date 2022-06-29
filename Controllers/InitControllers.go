@@ -40,4 +40,7 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/TransportTypes/{TransportTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditTransportType, &ApplicationCore.WebCore)).Methods("PATCH")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/TransportTypes/{TransportTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteTransportType, &ApplicationCore.WebCore)).Methods("DELETE")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/TransportTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddTransportType, &ApplicationCore.WebCore)).Methods("POST")
+	//Производители
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Manufacturers", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetManufacturers, &ApplicationCore.WebCore)).Methods("GET")
+
 }
