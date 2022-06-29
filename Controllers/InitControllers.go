@@ -42,5 +42,6 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/TransportTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddTransportType, &ApplicationCore.WebCore)).Methods("POST")
 	//Производители
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Manufacturers", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetManufacturers, &ApplicationCore.WebCore)).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Manufacturers/{ManufacturerId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetManufacturer, &ApplicationCore.WebCore)).Methods("GET")
 
 }

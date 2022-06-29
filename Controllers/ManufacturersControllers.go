@@ -7,6 +7,7 @@ import (
 	"github.com/MrAmperage/GoWebStruct/WebCore"
 	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 	"github.com/streadway/amqp"
 )
 
@@ -36,4 +37,35 @@ func GetManufacturers(ResponseWriter http.ResponseWriter, Request *http.Request,
 		return
 	}
 	return Manufacturers, Error
+}
+
+func GetManufacturer(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	var Manufacturer Models.Manufacturer
+	TransportTypeId := mux.Vars(Request)["ManufacturerId"]
+	NewCorrelationId := uuid.NewString()
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Manufacturers", false, false, amqp.Publishing{
+		Type:          "GET",
+		ContentType:   "application/json",
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+		Body:          []byte(TransportTypeId),
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+	Error = json.Unmarshal(RabbitMessage.Body, &Manufacturer)
+	if Error != nil {
+		return
+	}
+
+	return Manufacturer, Error
 }
