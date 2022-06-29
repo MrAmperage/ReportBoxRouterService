@@ -2,6 +2,7 @@ package Controllers
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
@@ -37,6 +38,41 @@ func GetManufacturers(ResponseWriter http.ResponseWriter, Request *http.Request,
 		return
 	}
 	return Manufacturers, Error
+}
+
+func EditManufacturer(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	var NewManufacturer Models.Manufacturer
+	ByteBody, Error := ioutil.ReadAll(Request.Body)
+	if Error != nil {
+
+		return
+	}
+	NewCorrelationId := uuid.NewString()
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Manufacturers", false, false, amqp.Publishing{
+		Type:          "PATCH",
+		Body:          ByteBody,
+		ContentType:   "application/json",
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+	Error = json.Unmarshal(RabbitMessage.Body, &NewManufacturer)
+	if Error != nil {
+		return
+	}
+
+	return NewManufacturer, Error
 }
 
 func GetManufacturer(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
