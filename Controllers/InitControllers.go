@@ -48,4 +48,5 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Manufacturers/{ManufacturerId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditManufacturer, &ApplicationCore.WebCore)).Methods("PATCH")
 	//Организации
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Organizations", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetOrganizations, &ApplicationCore.WebCore)).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Organizations/{OrganizationId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetOrganization, &ApplicationCore.WebCore)).Methods("GET")
 }
