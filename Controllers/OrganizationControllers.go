@@ -131,3 +131,36 @@ func EditOrganization(ResponseWriter http.ResponseWriter, Request *http.Request,
 
 	return NewOrganization, Error
 }
+
+func AddOrganization(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	var NewOrganization Models.Organization
+	NewCorrelationId := uuid.NewString()
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+	ByteBody, Error := ioutil.ReadAll(Request.Body)
+	if Error != nil {
+		return
+	}
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Organizations", false, false, amqp.Publishing{
+		Type:          "POST",
+		Body:          ByteBody,
+		ContentType:   "application/json",
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+	Error = json.Unmarshal(RabbitMessage.Body, &NewOrganization)
+	if Error != nil {
+		return
+	}
+
+	return NewOrganization, Error
+}
