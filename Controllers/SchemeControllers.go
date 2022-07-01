@@ -67,7 +67,7 @@ func GetSchemes(ResponseWriter http.ResponseWriter, Request *http.Request, WebCo
 	if Error != nil {
 		return
 	}
-	return []DataContainers.NaimedTable[Models.Scheme]{{Name: "SchemesTable", Type: "Table", Table: Schemes}}, Error
+	return []DataContainers.ResponseContainer[[]Models.Scheme]{{Id: "SchemesTable", Type: "Table", Container: Schemes}}, Error
 }
 func DeleteScheme(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
 	NewCorrelationId := uuid.NewString()

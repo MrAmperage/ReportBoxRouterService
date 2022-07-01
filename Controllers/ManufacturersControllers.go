@@ -38,7 +38,7 @@ func GetManufacturers(ResponseWriter http.ResponseWriter, Request *http.Request,
 	if Error != nil {
 		return
 	}
-	return []DataContainers.NaimedTable[Models.Manufacturer]{{Name: "ManufacturersTable", Table: Manufacturers, Type: "Table"}}, Error
+	return []DataContainers.ResponseContainer[[]Models.Manufacturer]{{Id: "ManufacturersTable", Container: Manufacturers, Type: "Table"}}, Error
 }
 
 func EditManufacturer(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {

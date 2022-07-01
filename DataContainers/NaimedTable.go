@@ -1,7 +1,7 @@
 package DataContainers
 
-type NaimedTable[Table any] struct {
-	Type  string
-	Name  string
-	Table []Table
+type ResponseContainer[Data any] struct {
+	Type      string
+	Id        string
+	Container Data
 }

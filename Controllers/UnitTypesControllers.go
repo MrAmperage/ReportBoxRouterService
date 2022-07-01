@@ -38,8 +38,8 @@ func GetUnitTypes(ResponseWriter http.ResponseWriter, Request *http.Request, Web
 	if Error != nil {
 		return
 	}
-	return []DataContainers.NaimedTable[Models.UnitTypes]{
-		{Name: "UnitTypesTable", Table: UnitTypes, Type: "Table"},
+	return []DataContainers.ResponseContainer[[]Models.UnitTypes]{
+		{Id: "UnitTypesTable", Container: UnitTypes, Type: "Table"},
 	}, Error
 }
 
