@@ -38,7 +38,9 @@ func GetUnitTypes(ResponseWriter http.ResponseWriter, Request *http.Request, Web
 	if Error != nil {
 		return
 	}
-	return DataContainers.NaimedTable[Models.UnitTypes]{Name: "UnitTypesTable", Table: UnitTypes}, Error
+	return []DataContainers.NaimedTable[Models.UnitTypes]{
+		{Name: "UnitTypesTable", Table: UnitTypes, Type: "Table"},
+	}, Error
 }
 
 func GetUnitType(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
