@@ -39,7 +39,7 @@ func GetOrganizations(ResponseWriter http.ResponseWriter, Request *http.Request,
 		return
 	}
 
-	return []DataContainers.ResponseContainer[[]Models.Organization]{{Container: Organizations, Id: "OrgatizationsTable", Type: "Table"}}, Error
+	return []DataContainers.ResponseContainer[[]Models.Organization]{{Container: Organizations, Id: "OrganizationsTable", Type: "Table"}}, Error
 }
 
 func GetOrganization(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {

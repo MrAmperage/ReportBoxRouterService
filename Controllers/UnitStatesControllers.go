@@ -38,7 +38,7 @@ func GetUnitStates(ResponseWriter http.ResponseWriter, Request *http.Request, We
 	if Error != nil {
 		return
 	}
-	return []DataContainers.ResponseContainer[[]Models.UnitState]{{Id: "UnitStatesTable", Container: UnitStates, Type: "Table"}}, Error
+	return []DataContainers.ResponseContainer[[]Models.UnitState]{{Id: "CrudTable", Container: UnitStates, Type: "Table"}}, Error
 }
 
 func GetUnitState(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {

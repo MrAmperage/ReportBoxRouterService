@@ -38,7 +38,7 @@ func GetTransportTypes(ResponseWriter http.ResponseWriter, Request *http.Request
 	if Error != nil {
 		return
 	}
-	return []DataContainers.ResponseContainer[[]Models.TransportType]{{Id: "TransportTypesTable", Container: TransportTypes, Type: "Table"}}, Error
+	return []DataContainers.ResponseContainer[[]Models.TransportType]{{Id: "CrudTable", Container: TransportTypes, Type: "Table"}}, Error
 }
 
 func GetTransportType(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {

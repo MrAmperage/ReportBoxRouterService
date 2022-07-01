@@ -39,7 +39,7 @@ func GetUnitTypes(ResponseWriter http.ResponseWriter, Request *http.Request, Web
 		return
 	}
 	return []DataContainers.ResponseContainer[[]Models.UnitTypes]{
-		{Id: "UnitTypesTable", Container: UnitTypes, Type: "Table"},
+		{Id: "CrudTable", Container: UnitTypes, Type: "Table"},
 	}, Error
 }
 
