@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
-	"github.com/MrAmperage/ReportBoxRouterService/DataContainers"
 	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -38,9 +37,7 @@ func GetUnitTypes(ResponseWriter http.ResponseWriter, Request *http.Request, Web
 	if Error != nil {
 		return
 	}
-	return []DataContainers.ResponseContainer[[]Models.UnitTypes]{
-		{Id: "CrudTable", Container: UnitTypes, Type: "Table"},
-	}, Error
+	return UnitTypes, Error
 }
 
 func GetUnitType(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {

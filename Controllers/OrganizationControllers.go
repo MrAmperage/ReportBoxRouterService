@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
-	"github.com/MrAmperage/ReportBoxRouterService/DataContainers"
 	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -39,7 +38,7 @@ func GetOrganizations(ResponseWriter http.ResponseWriter, Request *http.Request,
 		return
 	}
 
-	return []DataContainers.ResponseContainer[[]Models.Organization]{{Container: Organizations, Id: "OrganizationsTable", Type: "Table"}}, Error
+	return Organizations, Error
 }
 
 func GetOrganization(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {

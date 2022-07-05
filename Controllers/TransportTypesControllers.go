@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
-	"github.com/MrAmperage/ReportBoxRouterService/DataContainers"
 	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -38,7 +37,7 @@ func GetTransportTypes(ResponseWriter http.ResponseWriter, Request *http.Request
 	if Error != nil {
 		return
 	}
-	return []DataContainers.ResponseContainer[[]Models.TransportType]{{Id: "CrudTable", Container: TransportTypes, Type: "Table"}}, Error
+	return TransportTypes, Error
 }
 
 func GetTransportType(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {

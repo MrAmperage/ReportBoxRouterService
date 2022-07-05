@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
-	"github.com/MrAmperage/ReportBoxRouterService/DataContainers"
 	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -38,7 +37,7 @@ func GetManufacturers(ResponseWriter http.ResponseWriter, Request *http.Request,
 	if Error != nil {
 		return
 	}
-	return []DataContainers.ResponseContainer[[]Models.Manufacturer]{{Id: "CrudTable", Container: Manufacturers, Type: "Table"}}, Error
+	return Manufacturers, Error
 }
 
 func EditManufacturer(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {

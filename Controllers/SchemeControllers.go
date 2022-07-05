@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
-	"github.com/MrAmperage/ReportBoxRouterService/DataContainers"
 	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -67,7 +66,7 @@ func GetSchemes(ResponseWriter http.ResponseWriter, Request *http.Request, WebCo
 	if Error != nil {
 		return
 	}
-	return []DataContainers.ResponseContainer[[]Models.Scheme]{{Id: "CrudTable", Type: "Table", Container: Schemes}}, Error
+	return Schemes, Error
 }
 func DeleteScheme(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
 	NewCorrelationId := uuid.NewString()

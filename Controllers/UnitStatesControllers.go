@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
-	"github.com/MrAmperage/ReportBoxRouterService/DataContainers"
 	"github.com/MrAmperage/ReportBoxRouterService/Models"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -38,7 +37,7 @@ func GetUnitStates(ResponseWriter http.ResponseWriter, Request *http.Request, We
 	if Error != nil {
 		return
 	}
-	return []DataContainers.ResponseContainer[[]Models.UnitState]{{Id: "CrudTable", Container: UnitStates, Type: "Table"}}, Error
+	return UnitStates, Error
 }
 
 func GetUnitState(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
