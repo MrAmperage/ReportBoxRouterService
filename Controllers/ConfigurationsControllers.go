@@ -12,7 +12,7 @@ import (
 )
 
 func GetConfiguration(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
-
+	var UserMenu []Models.TopMenu
 	Action := mux.Vars(Request)["Action"]
 	NewCorrelationId := uuid.NewString()
 	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
@@ -36,8 +36,8 @@ func GetConfiguration(ResponseWriter http.ResponseWriter, Request *http.Request,
 	}
 	switch Action {
 	case "GetApplicationMenu":
-		var TopMenu []Models.TopMenu
-		return TopMenu, json.Unmarshal(RabbitMessage.Body, &TopMenu)
+		json.Unmarshal(RabbitMessage.Body, &UserMenu)
+		return UserMenu, Error
 
 	}
 	return

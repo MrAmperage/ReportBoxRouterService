@@ -12,13 +12,6 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/users/{Username}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditUser, &ApplicationCore.WebCore)).Methods("PATCH")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/users", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetUsers, &ApplicationCore.WebCore)).Methods("GET")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/users/{Username}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetUser, &ApplicationCore.WebCore)).Methods("GET")
-	//Схемы
-	ApplicationCore.WebCore.Router.HandleFunc("/api/Schemes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddScheme, &ApplicationCore.WebCore)).Methods("POST")
-	ApplicationCore.WebCore.Router.HandleFunc("/api/Schemes/{SchemeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteScheme, &ApplicationCore.WebCore)).Methods("DELETE")
-	ApplicationCore.WebCore.Router.HandleFunc("/api/Schemes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetSchemes, &ApplicationCore.WebCore)).Methods("GET")
-	ApplicationCore.WebCore.Router.HandleFunc("/api/Schemes/{SchemeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditScheme, &ApplicationCore.WebCore)).Methods("PATCH")
-	ApplicationCore.WebCore.Router.HandleFunc("/api/Schemes/{SchemeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetScheme, &ApplicationCore.WebCore)).Methods("GET")
-
 	//Конфигурация
 	ApplicationCore.WebCore.Router.HandleFunc("/api/configuration/{Action}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetConfiguration, &ApplicationCore.WebCore)).Methods("GET")
 
