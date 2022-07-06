@@ -45,4 +45,7 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Organizations/{OrganizationId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteOrganization, &ApplicationCore.WebCore)).Methods("DELETE")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Organizations/{OrganizationId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditOrganization, &ApplicationCore.WebCore)).Methods("PATCH")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Organizations", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddOrganization, &ApplicationCore.WebCore)).Methods("POST")
+	//Типы грузов
+	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetCargoTypes, &ApplicationCore.WebCore)).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes/{CargoTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetCargoType, &ApplicationCore.WebCore)).Methods("GET")
 }
