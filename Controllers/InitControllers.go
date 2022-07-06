@@ -49,4 +49,5 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetCargoTypes, &ApplicationCore.WebCore)).Methods("GET")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes/{CargoTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetCargoType, &ApplicationCore.WebCore)).Methods("GET")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes/{CargoTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteCargoType, &ApplicationCore.WebCore)).Methods("DELETE")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes/{CargoTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditCargoType, &ApplicationCore.WebCore)).Methods("PATCH")
 }
