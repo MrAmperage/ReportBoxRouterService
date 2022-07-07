@@ -1,9 +1,9 @@
 package Models
 
-import "github.com/jackc/pgtype"
+import "github.com/google/uuid"
 
 type Role struct {
-	Rolename    string       `gorm:"primaryKey;not null;rolename"`
-	Permissions pgtype.JSONB `gorm:"not null;permissions"`
-	Comment     string       `gorm:"not null;comment"`
+	Id          uuid.UUID `gorm:"primary_key;type:uuid;default:uuid_generate_v4()"`
+	Rolename    string    `gorm:"not null;rolename"`
+	Description string    `gorm:"not null;description"`
 }
