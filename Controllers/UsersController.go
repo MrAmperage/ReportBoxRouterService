@@ -43,7 +43,7 @@ func AddUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreO
 
 func DeleteUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
 	NewCorrelationId := uuid.NewString()
-	Username := mux.Vars(Request)["Username"]
+	UserId := mux.Vars(Request)["UserId"]
 
 	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
 	if Error != nil {
@@ -53,7 +53,7 @@ func DeleteUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCo
 	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Users", false, false, amqp.Publishing{
 		Type:          "DELETE",
 		ContentType:   "application/json",
-		Body:          []byte(Username),
+		Body:          []byte(UserId),
 		ReplyTo:       `amq.rabbitmq.reply-to`,
 		CorrelationId: NewCorrelationId,
 	})
@@ -128,7 +128,7 @@ func GetUsers(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore
 func GetUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
 	var User Models.User
 	NewCorrelationId := uuid.NewString()
-	Username := mux.Vars(Request)["Username"]
+	UserId := mux.Vars(Request)["UserId"]
 	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
 	if Error != nil {
 		return
@@ -137,7 +137,7 @@ func GetUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreO
 	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Users", false, false, amqp.Publishing{
 		Type:          "GET",
 		ContentType:   "application/json",
-		Body:          []byte(Username),
+		Body:          []byte(UserId),
 		ReplyTo:       `amq.rabbitmq.reply-to`,
 		CorrelationId: NewCorrelationId,
 	})

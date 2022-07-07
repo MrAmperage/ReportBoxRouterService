@@ -8,10 +8,10 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/authentication", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AuthenticationController, &ApplicationCore.WebCore)).Methods("POST")
 	//Пользователи
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Users", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddUser, &ApplicationCore.WebCore)).Methods("POST")
-	ApplicationCore.WebCore.Router.HandleFunc("/api/Users/{Username}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteUser, &ApplicationCore.WebCore)).Methods("DELETE")
-	ApplicationCore.WebCore.Router.HandleFunc("/api/Users/{Username}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditUser, &ApplicationCore.WebCore)).Methods("PATCH")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Users/{UserId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteUser, &ApplicationCore.WebCore)).Methods("DELETE")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Users/{UserId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditUser, &ApplicationCore.WebCore)).Methods("PATCH")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Users", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetUsers, &ApplicationCore.WebCore)).Methods("GET")
-	ApplicationCore.WebCore.Router.HandleFunc("/api/Users/{Username}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetUser, &ApplicationCore.WebCore)).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Users/{UserId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetUser, &ApplicationCore.WebCore)).Methods("GET")
 	//Конфигурация
 	ApplicationCore.WebCore.Router.HandleFunc("/api/configuration/{Action}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetConfiguration, &ApplicationCore.WebCore)).Methods("GET")
 
