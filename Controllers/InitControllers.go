@@ -51,4 +51,6 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes/{CargoTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteCargoType, &ApplicationCore.WebCore)).Methods("DELETE")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes/{CargoTypeId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditCargoType, &ApplicationCore.WebCore)).Methods("PATCH")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddCargoType, &ApplicationCore.WebCore)).Methods("POST")
+	//Роли
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Roles", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetRoles, &ApplicationCore.WebCore)).Methods("GET")
 }
