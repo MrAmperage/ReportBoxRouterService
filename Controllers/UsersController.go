@@ -69,7 +69,7 @@ func DeleteUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCo
 
 func EditUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
 	NewCorrelationId := uuid.NewString()
-
+	var NewUser Models.User
 	ByteBody, Error := ioutil.ReadAll(Request.Body)
 	if Error != nil {
 		return
@@ -93,7 +93,11 @@ func EditUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore
 	if Error != nil {
 		return
 	}
-	return string(RabbitMessage.Body), Error
+	Error = json.Unmarshal(RabbitMessage.Body, &NewUser)
+	if Error != nil {
+		return
+	}
+	return RabbitMessage.Body, Error
 }
 
 func GetUsers(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
