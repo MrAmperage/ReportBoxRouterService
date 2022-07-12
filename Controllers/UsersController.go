@@ -97,7 +97,7 @@ func EditUser(ResponseWriter http.ResponseWriter, Request *http.Request, WebCore
 	if Error != nil {
 		return
 	}
-	return RabbitMessage.Body, Error
+	return NewUser, Error
 }
 
 func GetUsers(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
