@@ -56,4 +56,5 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Roles/{RoleId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetRole, &ApplicationCore.WebCore)).Methods("GET")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Roles/{RoleId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(EditRole, &ApplicationCore.WebCore)).Methods("PATCH")
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Roles", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddRole, &ApplicationCore.WebCore)).Methods("POST")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Roles/{RoleId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(DeleteRole, &ApplicationCore.WebCore)).Methods("DELETE")
 }
