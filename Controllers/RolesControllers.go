@@ -2,6 +2,7 @@ package Controllers
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/MrAmperage/GoWebStruct/WebCore"
@@ -68,4 +69,37 @@ func GetRole(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreO
 	}
 
 	return Role, Error
+}
+
+func EditRole(ResponseWriter http.ResponseWriter, Request *http.Request, WebCoreObject *WebCore.WebCore) (Data interface{}, Error error) {
+	NewCorrelationId := uuid.NewString()
+	var NewRole Models.Role
+	ByteBody, Error := ioutil.ReadAll(Request.Body)
+	if Error != nil {
+		return
+	}
+	ReplySubscribe, Error := WebCoreObject.RabbitMQ.RabbitMQChanel.GetSubscribeByQueueName("amq.rabbitmq.reply-to")
+	if Error != nil {
+		return
+	}
+
+	Error = WebCoreObject.RabbitMQ.RabbitMQChanel.Chanel.Publish("RportBoxExchange", "Roles", false, false, amqp.Publishing{
+		Type:          "PATCH",
+		ContentType:   "application/json",
+		Body:          ByteBody,
+		ReplyTo:       `amq.rabbitmq.reply-to`,
+		CorrelationId: NewCorrelationId,
+	})
+	if Error != nil {
+		return
+	}
+	RabbitMessage, Error := ReplySubscribe.GetMessageByCorrelationId(NewCorrelationId)
+	if Error != nil {
+		return
+	}
+	Error = json.Unmarshal(RabbitMessage.Body, &NewRole)
+	if Error != nil {
+		return
+	}
+	return NewRole, Error
 }
