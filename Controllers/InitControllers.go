@@ -53,4 +53,5 @@ func InitControllers(ApplicationCore *ApplicationCore.ApplicationCore) {
 	ApplicationCore.WebCore.Router.HandleFunc("/api/CargoTypes", ApplicationCore.WebCore.Middleware.HandlerMiddleware(AddCargoType, &ApplicationCore.WebCore)).Methods("POST")
 	//Роли
 	ApplicationCore.WebCore.Router.HandleFunc("/api/Roles", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetRoles, &ApplicationCore.WebCore)).Methods("GET")
+	ApplicationCore.WebCore.Router.HandleFunc("/api/Roles/{RoleId}", ApplicationCore.WebCore.Middleware.HandlerMiddleware(GetRole, &ApplicationCore.WebCore)).Methods("GET")
 }
