@@ -8,9 +8,10 @@ require (
 	github.com/MrAmperage/GoWebStruct v0.0.0-20220526062049-b22ed9cfcbc8
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
-	github.com/jackc/pgtype v1.11.0
 	github.com/streadway/amqp v1.0.0
 )
+
+require github.com/jackc/pgtype v1.11.0 // indirect
 
 require (
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
@@ -24,8 +25,8 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/lib/pq v1.10.6
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
-	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
+	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
 	golang.org/x/text v0.3.7 // indirect
-	gorm.io/driver/postgres v1.3.7 // indirect
-	gorm.io/gorm v1.23.6 // indirect
+	gorm.io/driver/postgres v1.3.8 // indirect
+	gorm.io/gorm v1.23.8 // indirect
 )
